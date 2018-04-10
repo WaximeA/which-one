@@ -15,7 +15,10 @@ security:
             logout_on_user_change: true
             pattern: ^/
             form_login:
+                csrf_token_generator: security.csrf.token_manager
                 provider: fos_userbundle
+            remember_me:
+                secret: "%secret%"
             logout:       true
             anonymous:    true
 
