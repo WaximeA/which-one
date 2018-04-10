@@ -10,7 +10,7 @@ parameters:
 
 framework:
     #esi: ~
-    #translator: { fallbacks: ['%locale%'] }
+    translator: { fallbacks: ['%locale%'] }
     secret: '%secret%'
     router:
         resource: '%kernel.project_dir%/app/config/routing.yml'
@@ -30,6 +30,8 @@ framework:
     assets: ~
     php_errors:
         log: true
+    templating:
+        engines: ['twig']
 
 # Twig Configuration
 twig:
@@ -72,3 +74,23 @@ swiftmailer:
 
 vich_uploader:
     db_driver: orm # or mongodb or propel or phpcr
+    mappings:
+        face_image:
+
+            uri_prefix: /uploads
+            upload_destination: '%kernel.project_dir%/web/uploads/'
+            namer: vich_uploader.namer_uniqid
+
+            inject_on_load: true
+            delete_on_update: true
+            delete_on_remove: true
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+    from_email:
+        address: "aveline.maxime@gmail.com"
+        sender_name: "WhichOne"
+    service:
+        mailer: fos_user.mailer.twig_swift
