@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{{ url('homepage') }}">WhichOne</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link {% if "presentation" in route  %}active{% endif %}" href="{{ url('presentation') }}">Presentation</a>
+            <a class="nav-item nav-link {% if "faces" in route  %}active{% endif %}" href="{{ url('faces') }}">Faces</a>
+            <a class="nav-item nav-link {% if "top" in route  %}active{% endif %}" href="{{ url('top') }}">Top</a>
+            <a class="nav-item nav-link" href="#">Admin</a>
+        </div>
+    </div>
+
+    {#<li class="nav-item"><a class="nav-link {% if "homepage" in route  %}active{% endif %}" href="{{ url('homepage') }}">Homepage</a></li>#}
+    {#<li class="nav-item"><a class="nav-link {% if "presentation" in route  %}active{% endif %}" href="{{ url('presentation') }}">Presentation</a></li>#}
+    {#<li class="nav-item"><a class="nav-link {% if "news" in route  %}active{% endif %}" href="{{ url('news') }}">News</a></li>#}
+    {#<li class="nav-item"><a class="nav-link {% if "search" in route  %}active{% endif %}" href="{{ url('searchhp') }}">Search</a></li>#}
+    {#<li class="nav-item"><a class="nav-link {% if "top" in route  %}active{% endif %}" href="{{ url('top') }}">Top</a></li>#}
+    {#<li class="nav-item"><a class="nav-link" href="{{ url('admin') }}">Admin</a></li>#}
+</nav>
