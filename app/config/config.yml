@@ -110,14 +110,14 @@ easy_admin:
           class: AppBundle\Entity\Face
           form:
             fields:
-              - titre
+              - title
               - {property: 'image', type: 'vich_image', data_class: null}
               - category
               - content
               - enable
           list:
             fields:
-              - titre
+              - title
               - category
               - {property: 'imageName', type: 'image', base_path: '/uploads/'}
               - enable
