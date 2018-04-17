@@ -30,14 +30,6 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/faces", name="faces")
-     */
-    public function facesAction()
-    {
-        return $this->render('default/faces.html.twig');
-    }
-
-    /**
      * @Route("/top", name="top")
      */
     public function topAction()

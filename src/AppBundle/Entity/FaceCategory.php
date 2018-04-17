@@ -49,6 +49,19 @@ class FaceCategory
      */
     private $createdAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Face", mappedBy="category")
+     */
+    private $faces;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->faces = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
 
     /**
      * Get id
@@ -158,5 +171,39 @@ class FaceCategory
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Add face
+     *
+     * @param \AppBundle\Entity\Face $face
+     *
+     * @return FaceCategory
+     */
+    public function addFace(Face $face)
+    {
+        $this->faces[] = $face;
+
+        return $this;
+    }
+
+    /**
+     * Remove face
+     *
+     * @param \AppBundle\Entity\Face $face
+     */
+    public function removeFace(Face $face)
+    {
+        $this->faces->removeElement($face);
+    }
+
+    /**
+     * Get faces
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFaces()
+    {
+        return $this->faces;
     }
 }
