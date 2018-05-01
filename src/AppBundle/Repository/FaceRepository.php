@@ -8,4 +8,12 @@ namespace AppBundle\Repository;
  */
 class FaceRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function search( $word )
+    {
+        $query = $this->createQueryBuilder('e')
+            ->where(' e.title LIKE :word or e.content LIKE :word')
+            ->setParameter('word', '%'.$word.'%')
+        ;
+        return $query->getQuery()->getResult();
+    }
 }
