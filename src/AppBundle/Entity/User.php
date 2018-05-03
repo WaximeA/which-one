@@ -30,11 +30,11 @@ class User extends BaseUser
     /**
      * Add proposal
      *
-     * @param \AppBundle\Entity\User $proposal
+     * @param $proposal
      *
      * @return User
      */
-    public function addProposal(User $proposal)
+    public function addProposal($proposal)
     {
         $this->proposals[] = $proposal;
         return $this;
@@ -43,9 +43,9 @@ class User extends BaseUser
     /**
      * Remove proposal
      *
-     * @param \AppBundle\Entity\User $proposal
+     * @param $proposal
      */
-    public function removeProposal(User $proposal)
+    public function removeProposal($proposal)
     {
         $this->proposals->removeElement($proposal);
     }

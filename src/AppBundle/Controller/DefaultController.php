@@ -15,7 +15,10 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('default/index.html.twig');
+        $faces = $this->getDoctrine()->getRepository('AppBundle:Face')->findAll();
+        $categories = $this->getDoctrine()->getRepository('AppBundle:FaceCategory')->findAll();
+
+        return $this->render('default/index.html.twig', ['faces' => $faces, 'categories' => $categories]);
     }
 
     public function getMenuAction($route)

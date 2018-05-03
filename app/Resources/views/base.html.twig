@@ -13,6 +13,13 @@
             {{ render(controller('AppBundle\\Controller\\DefaultController::getMenuAction',{'route': app.request.attributes.get('_route')})) }}
         {% endblock %}
         <div class="container">
+            {% for label, messages in app.flashes() %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
             {% block body %}{% endblock %}
         </div>
         {% block javascripts %}{% endblock %}

@@ -317,7 +317,8 @@ class Face
     }
 
     /**
-     * Get category
+     * Get
+     *
      *
      * @return \AppBundle\Entity\FaceCategory
      */

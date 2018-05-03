@@ -2,4 +2,36 @@
 
 {% block body %}
     <h1>Home</h1>
+    <div class="container">
+        <div class="row">
+            {% for category in categories %}
+                <div class="col-md-6">
+                    {% if category.faces|length %}
+                        <div class="card">
+                            <div class="card-header">
+                                {{ category.titre }}
+                            </div>
+                            <div class="row">
+                                {% for randomFace in category.faces|shuffle %}
+                                    {% if loop.index < 3 %}
+                                        <div class="col-md-6">
+                                            <div style="height: 300px; overflow: hidden">
+                                                <img class="card-img-top" src="{{ asset('uploads/' ~ randomFace.imageName) }}" alt="Card image cap">
+                                            </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ randomFace.title }}</h5>
+                                                <p class="card-text">{% if randomFace.nbVote == false %}No vote{% else %}Votes : {{ randomFace.nbVote }}{% endif %}</p>
+                                                <a href="{% if app.user %} {{ path('vote', { 'faceId': randomFace.id }) }}{% else %}{{ path('admin') }}{% endif %}" class="btn btn-primary">Vote</a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
 {% endblock %}
