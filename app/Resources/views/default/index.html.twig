@@ -1,8 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Home</h1>
     <div class="container">
+        <div class="row">
+            {% if app.user %}
+                <div class="col-md-12">
+                    <div>
+                        <h4 >Welcome {{ app.user.username }} </h4>
+                        <p>You can now navigate on this website and vote for you favorite "face"</p>
+                        <p>
+                            <a href="{{ path('fos_user_profile_show') }}" class="btn btn-primary">Profile</a>
+                            <a href="{{ path('fos_user_security_logout') }}" class="btn btn-primary">Logout</a>
+                        </p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-6 offset-md-3">
+                    {{ render(controller('FOSUserBundle:Security:login')) }}
+                </div>
+            {% endif %}
+        </div>
+        <hr>
+        <h4>Vote here : </h4>
         <div class="row">
             {% for category in categories %}
                 <div class="col-md-6">
@@ -20,7 +39,7 @@
                                             </div>
                                             <div class="card-body">
                                                 <h5 class="card-title">{{ randomFace.title }}</h5>
-                                                <p class="card-text">{% if randomFace.nbVote == false %}No vote{% else %}Votes : {{ randomFace.nbVote }}{% endif %}</p>
+                                                <p class="card-text">{% if randomFace.nbVote == false %}No vote{% else %}Votes :{{ randomFace.nbVote }}{% endif %}</p>
                                                 <a href="{% if app.user %} {{ path('vote', { 'faceId': randomFace.id }) }}{% else %}{{ path('admin') }}{% endif %}" class="btn btn-primary">Vote</a>
                                             </div>
                                         </div>
@@ -33,5 +52,4 @@
             {% endfor %}
         </div>
     </div>
-
 {% endblock %}
