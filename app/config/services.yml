@@ -36,4 +36,5 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
     face.controller.service:
-        class: AppBundle\AppBundle\Controller\FaceController
+        class: AppBundle\Controller\FaceController
+        public: true
