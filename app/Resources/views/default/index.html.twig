@@ -6,12 +6,53 @@
             {% if app.user %}
                 <div class="col-md-12">
                     <div>
-                        <h4 >Welcome {{ app.user.username }} </h4>
-                        <p>You can now navigate on this website and vote for you favorite "face"</p>
-                        <p>
-                            <a href="{{ path('fos_user_profile_show') }}" class="btn btn-primary">Profile</a>
-                            <a href="{{ path('fos_user_security_logout') }}" class="btn btn-primary">Logout</a>
-                        </p>
+                        <div style="text-align: right;">
+                            <h4 >Welcome {{ app.user.username }} </h4>
+                            <p>You can now navigate on this website and vote for you favorite "face"</p>
+                            <p>
+                                <a href="{{ path('fos_user_profile_show') }}" class="btn btn-primary">Profile</a>
+                                <a href="{{ path('fos_user_security_logout') }}" class="btn btn-primary">Logout</a>
+                            </p>
+                        </div>
+                        <div>
+                            <table class="table table-striped">
+                                <h4>Best Faces : </h4>
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Number of vote</th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for highestFace in highestFaces %}
+                                    {%  if loop.index == 1 %}
+                                        <tr class="table-warning">
+                                            <th scope="row">{{ loop.index }}</th>
+                                            <td>{{ highestFace.title }}</td>
+                                            <td>{{ highestFace.nbVote }}</td>
+                                            <td><a href="#" class="btn btn-primary">Show</a></td>
+                                        </tr>
+                                    {% elseif loop.index == 2 %}
+                                        <tr class="table-secondary">
+                                            <th>{{ loop.index }}</th>
+                                            <td>{{ highestFace.title }}</td>
+                                            <td>{{ highestFace.nbVote }}</td>
+                                            <td><a href="#" class="btn btn-primary">Show</a></td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <th scope="row">{{ loop.index }}</th>
+                                            <td>{{ highestFace.title }}</td>
+                                            <td>{{ highestFace.nbVote }}</td>
+                                            <td><a href="#" class="btn btn-primary">Show</a></td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             {% else %}

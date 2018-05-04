@@ -17,8 +17,9 @@ class DefaultController extends Controller
     {
         $faces = $this->getDoctrine()->getRepository('AppBundle:Face')->findAll();
         $categories = $this->getDoctrine()->getRepository('AppBundle:FaceCategory')->findAll();
+        $highestFaces = $this->getHighestFaces();
 
-        return $this->render('default/index.html.twig', ['faces' => $faces, 'categories' => $categories]);
+        return $this->render('default/index.html.twig', ['faces' => $faces, 'categories' => $categories, 'highestFaces' => $highestFaces]);
     }
 
     public function getMenuAction($route)
@@ -70,5 +71,16 @@ class DefaultController extends Controller
             'form' => $searchForm->createView(),
             'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
         ]);
+    }
+
+    public function getHighestFaces(){
+        $em = $this->getDoctrine()->getManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("SELECT * FROM face ORDER BY nbVote DESC LIMIT 5");
+        $statement->execute();
+        $results = $statement->fetchAll();
+
+        return $results;
+
     }
 }
