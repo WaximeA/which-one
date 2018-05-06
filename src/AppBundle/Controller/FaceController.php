@@ -20,6 +20,16 @@ class FaceController extends Controller
     }
 
     /**
+     * @Route("/face/{faceId}", name="show_face")
+     */
+    public function showFaceAction($faceId)
+    {
+        $face = $this->getDoctrine()->getRepository('AppBundle:Face')->find($faceId);
+
+        return $this->render('face/show_face.html.twig', ['face' => $face]) ;
+    }
+
+    /**
      * @Route("/vote/{faceId}", name="vote")
      */
     public function voteAction($faceId){

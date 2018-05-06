@@ -20,8 +20,9 @@
                             {% for face in category.faces %}
                                 {% if face.category == category.titre %}
                                     <li class="list-group-item">
-                                        <h5 class="card-title">{{ face.title }}</h5>
-                                        <p class="card-text"><img src="{{ asset('uploads/' ~ face.imageName) }}" alt="" width="100"></p>
+                                        <a href="{{  path('show_face', { 'faceId': face.id }) }}"><h5 class="card-title">{{ face.title }}</h5></a>
+                                        <a href="{{  path('show_face', { 'faceId': face.id }) }}"><p class="card-text"><img src="{{ asset('uploads/' ~ face.imageName) }}" alt="" width="100"></p></a>
+                                        <p class="card-text">{{ face.content }}</p>
                                     </li>
                                 {% endif %}
                             {% endfor %}
