@@ -17,8 +17,9 @@ class DefaultController extends Controller
     {
         $faces = $this->getDoctrine()->getRepository('AppBundle:Face')->findAll();
         $categories = $this->getDoctrine()->getRepository('AppBundle:FaceCategory')->findAll();
+        $lastFaces = $this->getLastFaces();
 
-        return $this->render('default/index.html.twig', ['faces' => $faces, 'categories' => $categories]);
+        return $this->render('default/index.html.twig', ['faces' => $faces, 'categories' => $categories, 'lastFaces' => $lastFaces]);
     }
 
     public function getMenuAction($route)
@@ -74,7 +75,8 @@ class DefaultController extends Controller
         ]);
     }
 
-    public function getHighestFaces(){
+    public function getHighestFaces()
+    {
         $em = $this->getDoctrine()->getManager();
         $connection = $em->getConnection();
         $statement = $connection->prepare("SELECT * FROM face ORDER BY nbVote DESC LIMIT 5");
@@ -83,5 +85,14 @@ class DefaultController extends Controller
 
         return $results;
 
+    }
+
+    public function getLastFaces()
+    {
+        $faces = $this->getDoctrine()->getRepository('AppBundle:Face')->findAll();
+        $faceNumber = count($faces);
+        $lastFaces = array_slice($faces, $faceNumber - 10, $faceNumber);
+
+        return $lastFaces;
     }
 }

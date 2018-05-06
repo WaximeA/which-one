@@ -15,6 +15,29 @@
                             </p>
                         </div>
                     </div>
+                    <div>
+                        <table class="table table-striped">
+                            <h4>Last face : </h4>
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Number of vote</th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for lastFace in lastFaces %}
+                                    <tr>
+                                        <th scope="row">{{ loop.index }}</th>
+                                        <td>{{ lastFace.title }}</td>
+                                        <td>{{ lastFace.nbVote }}</td>
+                                        <td><a href="{{  path('show_face', { 'faceId': lastFace.id }) }}" class="btn btn-primary">Show</a></td>
+                                    </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             {% else %}
                 <div class="col-md-6 offset-md-3">
