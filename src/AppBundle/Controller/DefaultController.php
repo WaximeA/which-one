@@ -17,9 +17,8 @@ class DefaultController extends Controller
     {
         $faces = $this->getDoctrine()->getRepository('AppBundle:Face')->findAll();
         $categories = $this->getDoctrine()->getRepository('AppBundle:FaceCategory')->findAll();
-        $highestFaces = $this->getHighestFaces();
 
-        return $this->render('default/index.html.twig', ['faces' => $faces, 'categories' => $categories, 'highestFaces' => $highestFaces]);
+        return $this->render('default/index.html.twig', ['faces' => $faces, 'categories' => $categories]);
     }
 
     public function getMenuAction($route)
@@ -40,7 +39,9 @@ class DefaultController extends Controller
      */
     public function topAction()
     {
-        return $this->render('default/top.html.twig');
+        $highestFaces = $this->getHighestFaces();
+
+        return $this->render('default/top.html.twig', ['highestFaces' => $highestFaces]);
     }
 
     /**
