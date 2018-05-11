@@ -40,9 +40,12 @@ class DefaultController extends Controller
      */
     public function topAction()
     {
+        $faces = $this->getDoctrine()->getRepository('AppBundle:Face')->findAll();
+        $categories = $this->getDoctrine()->getRepository('AppBundle:FaceCategory')->findAll();
         $highestFaces = $this->getHighestFaces();
+        $topFaceCategories = $this->beautifyTopFaceCategories();
 
-        return $this->render('default/top.html.twig', ['highestFaces' => $highestFaces]);
+        return $this->render('default/top.html.twig', ['faces' => $faces, 'categories' => $categories, 'highestFaces' => $highestFaces, 'topFaceCategories' => $topFaceCategories]);
     }
 
     /**
@@ -94,5 +97,29 @@ class DefaultController extends Controller
         $lastFaces = array_slice($faces, $faceNumber - 10, $faceNumber);
 
         return $lastFaces;
+    }
+
+    public function getTopFaceCategories($categoryId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("SELECT * FROM face WHERE category_id = ".$categoryId." ORDER BY nbVote DESC LIMIT 1");
+        $statement->execute();
+        $results = $statement->fetchAll();
+
+        return $results[0];
+    }
+
+    public function beautifyTopFaceCategories()
+    {
+        $categories = $this->getDoctrine()->getRepository('AppBundle:FaceCategory')->findAll();
+        $beautifiedTopCategories = [];
+
+        foreach ($categories as $category){
+            $categoryId = $category->getId();
+            $beautifiedTopCategories[$categoryId] = $this->getTopFaceCategories($categoryId);
+        }
+
+        return $beautifiedTopCategories;
     }
 }
