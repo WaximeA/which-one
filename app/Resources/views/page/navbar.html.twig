@@ -7,10 +7,24 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link {% if "presentation" in route  %}active{% endif %}" href="{{ url('presentation') }}">Presentation</a>
             <a class="nav-item nav-link {% if "faces" in route  %}active{% endif %}" href="{{ url('faces') }}">Faces</a>
+            <a class="nav-item nav-link {% if "search" in route  %}active{% endif %}" href="{{ url('searchhp') }}">Search</a>
             <a class="nav-item nav-link {% if "top" in route  %}active{% endif %}" href="{{ url('top') }}">Top</a>
-            <a class="nav-item nav-link" href="#">Admin</a>
         </div>
     </div>
+
+    <ul class="navbar-nav ml-auto">
+        <!-- Authentication Links -->
+        {% if is_granted('ROLE_ADMIN') %}
+            <li><a class="nav-link" href="{{ url('admin') }}">Admin</a></li>
+        {% endif %}
+        {% if is_granted('ROLE_USER') %}
+            <li><a class="nav-link" href="{{ path('fos_user_profile_show') }}">Profile</a></li>
+            <li><a class="nav-link" href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+        {% else %}
+            <li><a class="nav-link" href="{{ path('fos_user_security_login') }}">Login</a></li>
+            <li><a class="nav-link" href="{{ path('fos_user_registration_register') }}">Register</a></li>
+        {% endif %}
+    </ul>
 
     {#<li class="nav-item"><a class="nav-link {% if "homepage" in route  %}active{% endif %}" href="{{ url('homepage') }}">Homepage</a></li>#}
     {#<li class="nav-item"><a class="nav-link {% if "presentation" in route  %}active{% endif %}" href="{{ url('presentation') }}">Presentation</a></li>#}

@@ -28,8 +28,13 @@ services:
         resource: '../../src/AppBundle/Controller'
         public: true
         tags: ['controller.service_arguments']
-
+    shuffle.twig.extension:
+        class: Twig_Extensions_Extension_Array
+        tags: [{ name: twig.shuffle }]
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+    face.controller.service:
+        class: AppBundle\Controller\FaceController
+        public: true

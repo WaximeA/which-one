@@ -1,5 +1,82 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Home</h1>
+    <div class="container">
+        <div class="row">
+            {% if app.user %}
+                <div class="col-md-12">
+                    <div>
+                        <div style="text-align: right;">
+                            <h4 >Welcome {{ app.user.username }} </h4>
+                            <p>You can now navigate on this website and vote for you favorite "face"</p>
+                            <p>
+                                <a href="{{ path('fos_user_profile_show') }}" class="btn btn-primary">Profile</a>
+                                <a href="{{ path('fos_user_security_logout') }}" class="btn btn-primary">Logout</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <table class="table table-striped">
+                            <h4>Last face : </h4>
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Number of vote</th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for lastFace in lastFaces %}
+                                    <tr>
+                                        <th scope="row">{{ loop.index }}</th>
+                                        <td>{{ lastFace.title }}</td>
+                                        <td>{{ lastFace.nbVote }}</td>
+                                        <td><a href="{{  path('show_face', { 'faceId': lastFace.id }) }}" class="btn btn-primary">Show</a></td>
+                                    </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-6 offset-md-3">
+                    {{ render(controller('FOSUserBundle:Security:login')) }}
+                </div>
+            {% endif %}
+        </div>
+        <hr>
+        <h4>Vote here : </h4>
+        <div class="row">
+            {% for category in categories %}
+                <div class="col-md-6">
+                    {% if category.faces|length %}
+                        <div class="card">
+                            <div class="card-header">
+                                {{ category.titre }}
+                            </div>
+                            <div class="row">
+                                {% for randomFace in category.faces|shuffle %}
+                                    {% if loop.index < 3 %}
+                                        <div class="col-md-6">
+                                            <div style="height: 300px; overflow: hidden">
+                                                <a href="{{  path('show_face', { 'faceId': randomFace.id }) }}">
+                                                    <img class="card-img-top" src="{{ asset('uploads/' ~ randomFace.imageName) }}" alt="Card image cap">
+                                                </a>
+                                            </div>
+                                            <div class="card-body">
+                                                <a href="{{  path('show_face', { 'faceId': randomFace.id }) }}"><h5 class="card-title">{{ randomFace.title }}</h5></a>
+                                                <p class="card-text">{% if randomFace.nbVote == false %}No vote{% else %}Votes :{{ randomFace.nbVote }}{% endif %}</p>
+                                                <a href="{% if app.user %} {{ path('vote', { 'faceId': randomFace.id }) }}{% else %}{{ path('admin') }}{% endif %}" class="btn btn-primary">Vote</a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

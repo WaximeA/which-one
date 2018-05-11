@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <span>#{{ face.id }}</span><b> {{ face.title }}</b>
+                    </div>
+                    <div class="card-body">
+                        <img class="card-img-top" src="{{ asset('uploads/' ~ face.imageName) }}" alt="Card image cap">
+                        <a href="{% if app.user %} {{ path('vote', { 'faceId': face.id }) }}{% else %}{{ path('admin') }}{% endif %}" class="btn btn-primary">Vote</a>
+                        <p>{{ face.content }}</p>
+                        <p>Votes : {{ face.nbVote }}</p>
+                    </div>
+                </div>
+                <br>
+                <a href="{{ path('faces') }}" class="btn btn-primary">Return</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

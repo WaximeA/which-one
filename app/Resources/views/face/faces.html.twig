@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Faces</h1>
+    <div class="container">
+        <div class="row">
+            {% for category in categories %}
+                <div class="col-md-6">
+                    <h1><a href="#"></a></h1>
+                    <div class="container">
+                        <div class="row">
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>{{ category.titre }}</h3>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                            {% for face in category.faces %}
+                                {% if face.category == category.titre %}
+                                    <li class="list-group-item">
+                                        <a href="{{  path('show_face', { 'faceId': face.id }) }}"><h5 class="card-title">{{ face.title }}</h5></a>
+                                        <a href="{{  path('show_face', { 'faceId': face.id }) }}"><p class="card-text"><img src="{{ asset('uploads/' ~ face.imageName) }}" alt="" width="100"></p></a>
+                                        <p class="card-text">{{ face.content }}</p>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
