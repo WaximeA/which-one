@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <h4>Best Face of {{ category.titre }} : </h4>
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Number of vote</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-warning">
+                            <th scope="row">#1</th>
+                            <td>{{ highestFace.title }}</td>
+                            <td>{{ highestFace.nbVote }}</td>
+                            <td><a href="{{  path('show_face', { 'faceId': highestFace.id }) }}" class="btn btn-primary">Show</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <span>#{{ category.id }}</span><b> {{ category.titre }}</b>
+                    </div>
+                    <div class="card-body">
+                        {% for face in category.faces %}
+                            {% if face.category == category.titre %}
+                                <li class="list-group-item">
+                                    <a href="{{  path('show_face', { 'faceId': face.id }) }}"><h5 class="card-title">{{ face.title }}</h5></a>
+                                    <a href="{{  path('show_face', { 'faceId': face.id }) }}"><p class="card-text"><img src="{{ asset('uploads/' ~ face.imageName) }}" alt="" width="100"></p></a>
+                                    <p class="card-text">{{ face.content }}</p>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <br>
+                <a href="{{ path('faces') }}" class="btn btn-primary">Return</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

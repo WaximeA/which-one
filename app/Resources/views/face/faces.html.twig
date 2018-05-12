@@ -13,7 +13,9 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h3>{{ category.titre }}</h3>
+                            <a href="{{  path('show_category', { 'categoryId': category.id }) }}">
+                                <h3>{{ category.titre }}</h3>
+                            </a>
                         </div>
                         <div class="card-body">
                             <ul class="list-group list-group-flush">
