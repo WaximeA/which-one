@@ -57,7 +57,9 @@
                                 {% for topCatgoryId,topFaceCategory in topFaceCategories %}
                                     {% if topCatgoryId == category.id %}
                                         <div class="card-body">
-                                            <img src="{{ asset('uploads/' ~ topFaceCategory.image_name) }}" alt="Card image cap">
+                                            <a href="{{  path('show_face', { 'faceId': topFaceCategory.id }) }}">
+                                                <img src="{{ asset('uploads/' ~ topFaceCategory.image_name) }}" alt="Card image cap">
+                                            </a>
                                             <p>{{ topFaceCategory.content }}</p>
                                             <p>Votes : {{ topFaceCategory.nbVote }}</p>
                                         </div>
