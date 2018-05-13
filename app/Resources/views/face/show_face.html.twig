@@ -1,23 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        <span>#{{ face.id }}</span><b> {{ face.title }}</b>
+    <section id="show-face">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mx-auto">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <span>#{{ face.id }}</span><b> {{ face.title }}</b>
+                        </div>
+                        <div class="card-body">
+                            <p>
+                                <img src="{{ asset('uploads/' ~ face.imageName) }}" alt="Card image cap">
+                            </p>
+                            <p>{{ face.content }}</p>
+                            <p>Votes : {{ face.nbVote }}</p>
+                            <a href="{% if app.user %} {{ path('vote', { 'faceId': face.id }) }}{% else %}{{ path('admin') }}{% endif %}" class="btn btn-primary">Vote</a>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <img class="card-img-top" src="{{ asset('uploads/' ~ face.imageName) }}" alt="Card image cap">
-                        <a href="{% if app.user %} {{ path('vote', { 'faceId': face.id }) }}{% else %}{{ path('admin') }}{% endif %}" class="btn btn-primary">Vote</a>
-                        <p>{{ face.content }}</p>
-                        <p>Votes : {{ face.nbVote }}</p>
-                    </div>
+                    <br>
+                    <a href="{{ path('faces') }}" class="btn btn-primary">Return</a>
                 </div>
-                <br>
-                <a href="{{ path('faces') }}" class="btn btn-primary">Return</a>
             </div>
         </div>
-    </div>
+    </section>
 {% endblock %}
