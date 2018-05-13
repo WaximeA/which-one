@@ -1,25 +1,38 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Search page</h1>
-
-    {{ form(form) }}
-    {% if news %}
+    <section id="faces">
         <div class="container">
-            <div class="card-columns">
-                {% for item in news %}
-                    <div class="">
-                        <div class="card panel-default ">
-                            <div class="card-header">{{ item.title }}</div>
-                            <div class="card-body">
-                                <img src="{{ asset('uploads/' ~ item.imageName) }}" alt="">
+            <div class="row">
+                <div class="col-md-12 mx-auto">
+                    <h1>Search page</h1>
+                    <p>Find here every face you search</p>
+                    <div class="col-md-9 mx-auto">
+                    {{ form(form) }}
+                    </div>
+                    {% if news %}
+                        <div class="container">
+                            <div class="card">
+                                {% for item in news %}
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <a href="{{ path('show_face', { 'faceId': item.id }) }}">
+                                                {{ item.title }}
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <img src="{{ asset('uploads/' ~ item.imageName) }}" alt="">
+                                        </div>
+                                        <a href="{{ path('show_face', { 'faceId': item.id }) }}" class="btn btn-light">Go on {{ item.title }} page</a>
+                                    </div>
+                                {% endfor %}
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% else %}
+                        <h2>No research....</h2>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    {% else %}
-        <h2>No content</h2>
-    {% endif %}
+    </section>
 {% endblock %}
