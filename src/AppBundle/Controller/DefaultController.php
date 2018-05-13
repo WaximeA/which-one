@@ -92,11 +92,13 @@ class DefaultController extends Controller
 
     public function getLastFaces()
     {
-        $faces = $this->getDoctrine()->getRepository('AppBundle:Face')->findAll();
-        $faceNumber = count($faces);
-        $lastFaces = array_slice($faces, $faceNumber - 10, $faceNumber);
+        $em = $this->getDoctrine()->getManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("SELECT * FROM face ORDER BY createdAt DESC LIMIT 10");
+        $statement->execute();
+        $results = $statement->fetchAll();
 
-        return $lastFaces;
+        return $results;
     }
 
     public function getTopFaceCategories($categoryId)
