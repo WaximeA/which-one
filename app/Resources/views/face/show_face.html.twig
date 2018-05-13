@@ -15,7 +15,11 @@
                             </p>
                             <p>{{ face.content }}</p>
                             <p>Votes : {{ face.nbVote }}</p>
-                            <a href="{% if app.user %} {{ path('vote', { 'faceId': face.id }) }}{% else %}{{ path('admin') }}{% endif %}" class="btn btn-primary">Vote</a>
+                            {% if app.user %}
+                                <a href="{% if app.user %} {{ path('vote', { 'faceId': face.id }) }}{% else %}{{ path('admin') }}{% endif %}" class="btn btn-primary">Vote</a>
+                            {% else %}
+                                <i>You need to be connected to vote</i>
+                            {% endif %}
                         </div>
                     </div>
                     <br>
