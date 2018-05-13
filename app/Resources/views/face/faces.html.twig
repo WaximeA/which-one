@@ -1,38 +1,44 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Faces</h1>
-    <div class="container">
-        <div class="row">
-            {% for category in categories %}
-                <div class="col-md-6">
-                    <h1><a href="#"></a></h1>
-                    <div class="container">
-                        <div class="row">
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <a href="{{  path('show_category', { 'categoryId': category.id }) }}">
-                                <h3>{{ category.titre }}</h3>
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                            {% for face in category.faces %}
-                                {% if face.category == category.titre %}
-                                    <li class="list-group-item">
-                                        <a href="{{  path('show_face', { 'faceId': face.id }) }}"><h5 class="card-title">{{ face.title }}</h5></a>
-                                        <a href="{{  path('show_face', { 'faceId': face.id }) }}"><p class="card-text"><img src="{{ asset('uploads/' ~ face.imageName) }}" alt="" width="100"></p></a>
-                                        <p class="card-text">{{ face.content }}</p>
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
+    <section id="random-vote">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mx-auto">
+                    <h3>All faces</h3>
+                    <p>Consult all the faces and categories of the website : </p>
+                    {% for category in categories %}
+                        {% if loop.index < 4 %}
+                            <div class="col-md-12 mx-auto">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3>{{ category.titre }}</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            {% for face in category.faces %}
+                                                <div class="col-md-4 mx-auto">
+                                                    {% if face.category == category.titre %}
+                                                        <a href="{{ path('show_face', { 'faceId': face.id }) }}"><h5 class="card-title">{{ face.title }}</h5></a>
+                                                        <a href="{{ path('show_face', { 'faceId': face.id }) }}">
+                                                            <p class="card-text">
+                                                                <img class="img-fluid" src="{{ asset('uploads/' ~ face.imageName) }}" alt="" style="width: auto; height: 190px;">
+                                                            </p>
+                                                        </a>
+                                                        <p class="card-text">{{ face.content }}</p>
+                                                    {% endif %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <a href="{{ path('show_category', { 'categoryId': category.id }) }}" class="btn btn-light">Go to {{ category.titre }}</a>
+                                </div>
+                                <br>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-            {% endfor %}
+            </div>
         </div>
-    </div>
+    </section>
 {% endblock %}
