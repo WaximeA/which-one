@@ -1,79 +1,77 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div>
-                    <table class="table table-striped">
-                        <h4>Best Faces : </h4>
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Number of vote</th>
-                            <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for highestFace in highestFaces %}
-                            {%  if loop.index == 1 %}
-                                <tr class="table-warning">
-                                    <th scope="row">{{ loop.index }}</th>
-                                    <td>{{ highestFace.title }}</td>
-                                    <td>{{ highestFace.nbVote }}</td>
-                                    <td><a href="{{  path('show_face', { 'faceId': highestFace.id }) }}" class="btn btn-primary">Show</a></td>
-                                </tr>
-                            {% elseif loop.index == 2 %}
-                                <tr class="table-secondary">
-                                    <th>{{ loop.index }}</th>
-                                    <td>{{ highestFace.title }}</td>
-                                    <td>{{ highestFace.nbVote }}</td>
-                                    <td><a href="{{  path('show_face', { 'faceId': highestFace.id }) }}" class="btn btn-primary">Show</a></td>
-                                </tr>
-                            {% else %}
-                                <tr>
-                                    <th scope="row">{{ loop.index }}</th>
-                                    <td>{{ highestFace.title }}</td>
-                                    <td>{{ highestFace.nbVote }}</td>
-                                    <td><a href="{{  path('show_face', { 'faceId': highestFace.id }) }}" class="btn btn-primary">Show</a></td>
-                                </tr>
-                            {% endif %}
-                        {% endfor %}
-                        </tbody>
-                    </table>
+    <section id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mx-auto">
+                    <div>
+                        <table class="table table-striped">
+                            <h4>Best Faces of all time : </h4>
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Number of vote</th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for highestFace in highestFaces %}
+                                {% if loop.index == 1 %}
+                                    <tr class="table-warning">
+                                        <th scope="row">{{ loop.index }}</th>
+                                        <td>{{ highestFace.title }}</td>
+                                        <td>{{ highestFace.nbVote }}</td>
+                                        <td><a href="{{ path('show_face', { 'faceId': highestFace.id }) }}" class="btn btn-primary">Show</a></td>
+                                    </tr>
+                                {% elseif loop.index == 2 %}
+                                    <tr class="table-secondary">
+                                        <th>{{ loop.index }}</th>
+                                        <td>{{ highestFace.title }}</td>
+                                        <td>{{ highestFace.nbVote }}</td>
+                                        <td><a href="{{ path('show_face', { 'faceId': highestFace.id }) }}" class="btn btn-primary">Show</a></td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <th scope="row">{{ loop.index }}</th>
+                                        <td>{{ highestFace.title }}</td>
+                                        <td>{{ highestFace.nbVote }}</td>
+                                        <td><a href="{{ path('show_face', { 'faceId': highestFace.id }) }}" class="btn btn-primary">Show</a></td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            {% for category in categories %}
-                <div class="col-md-6">
-                    {% if category.faces|length %}
-                        <div class="card">
-                            <div class="card-header">
-                                <a href="{{  path('show_category', { 'categoryId': category.id }) }}">
-                                    Best of {{ category.titre }}
-                                </a>
-                            </div>
-                            <div class="row">
+            <div class="row align-items-center">
+                {% for category in categories %}
+                    <div class="col-lg-6 order-lg-2">
+                        {% if category.faces|length %}
+                            <div class="p-5">
+                                <p>
+                                    <a href="{{ path('show_category', { 'categoryId': category.id }) }}" class="btn btn-light">
+                                        Best of {{ category.titre }}
+                                    </a>
+                                </p>
                                 {% for topCatgoryId,topFaceCategory in topFaceCategories %}
                                     {% if topCatgoryId == category.id %}
-                                        <div class="card-body">
-                                            <a href="{{  path('show_face', { 'faceId': topFaceCategory.id }) }}">
-                                                <img src="{{ asset('uploads/' ~ topFaceCategory.image_name) }}" alt="Card image cap">
-                                            </a>
-                                            <p>{{ topFaceCategory.content }}</p>
-                                            <p>Votes : {{ topFaceCategory.nbVote }}</p>
-                                        </div>
+                                        <a href="{{ path('show_face', { 'faceId': topFaceCategory.id }) }}">
+                                            <img src="{{ asset('uploads/' ~ topFaceCategory.image_name) }}" style="border: 4px #ffeeba solid">
+                                        </a>
+                                        <p>{{ topFaceCategory.title }}</p>
+                                        <p>{{ topFaceCategory.content }}</p>
+                                        <p>Votes : {{ topFaceCategory.nbVote }}</p>
                                     {% endif %}
                                 {% endfor %}
                             </div>
-                        </div>
-                    {% endif %}
-                </div>
-            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <a href="{{ path('homepage') }}" class="btn btn-primary">Return to home</a>
         </div>
-        <br>
-        <a href="{{ path('homepage') }}" class="btn btn-primary">Return to home</a>
-    </div>
+    </section>
 {% endblock %}
