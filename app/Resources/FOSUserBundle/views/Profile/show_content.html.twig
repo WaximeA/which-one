@@ -1,0 +1,37 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section id="show-category">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mx-auto">
+                    <h1>Profile page</h1>
+                    <p>Welcome <b>{{ user.username }}</b> on your profile page</p>
+                    <table class="table table-striped">
+                        <h4>You vote for : </h4>
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Number of vote</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for lastFace in user.proposals|reverse %}
+                            <tr>
+                                <th scope="row">{{ loop.index }}</th>
+                                <td>{{ lastFace.title }}</td>
+                                <td>{{ lastFace.nbVote }}</td>
+                                <td><a href="{{ path('show_face', { 'faceId': lastFace.id }) }}" class="btn btn-primary">Show</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
