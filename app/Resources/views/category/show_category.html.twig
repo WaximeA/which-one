@@ -24,6 +24,37 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {% if category.faces|length %}
+                    <div class="card">
+                        <div class="card-header">
+                            Vote for your favorite <b>{{ category.titre }} </b>:
+                        </div>
+                        <div class="row">
+                            {% for randomFace in category.faces|shuffle %}
+                                {% if loop.index < 3 %}
+                                    <div class="col-md-6">
+                                        <div style="height: 300px; overflow: hidden">
+                                            <a href="{{  path('show_face', { 'faceId': randomFace.id }) }}">
+                                                <img class="card-img-top" src="{{ asset('uploads/' ~ randomFace.imageName) }}" alt="Card image cap">
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <a href="{{  path('show_face', { 'faceId': randomFace.id }) }}"><h5 class="card-title">{{ randomFace.title }}</h5></a>
+                                            <p class="card-text">{% if randomFace.nbVote == false %}No vote{% else %}Votes :{{ randomFace.nbVote }}{% endif %}</p>
+                                            <a href="{% if app.user %} {{ path('vote', { 'faceId': randomFace.id }) }}{% else %}{{ path('admin') }}{% endif %}" class="btn btn-primary">Vote</a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
