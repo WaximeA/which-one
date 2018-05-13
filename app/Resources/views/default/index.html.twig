@@ -1,21 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            {% if app.user %}
-                <div class="col-md-12">
-                    <div>
-                        <div style="text-align: right;">
-                            <h4 >Welcome {{ app.user.username }} </h4>
-                            <p>You can now navigate on this website and vote for you favorite "face"</p>
-                            <p>
-                                <a href="{{ path('fos_user_profile_show') }}" class="btn btn-primary">Profile</a>
-                                <a href="{{ path('fos_user_security_logout') }}" class="btn btn-primary">Logout</a>
-                            </p>
-                        </div>
+    <section id="auth-info">
+        <div class="container">
+            <div class="row">
+                {% if app.user %}
+                    <div class="col-lg-12 mx-auto text-right">
+                        <h4>Welcome {{ app.user.username }} </h4>
+                        <p>You can now navigate on this website and vote for you favorite "faces"</p>
+                        <p>
+                            <a href="{{ path('fos_user_profile_show') }}" class="btn btn-primary">Profile</a>
+                            <a href="{{ path('fos_user_security_logout') }}" class="btn btn-primary">Logout</a>
+                        </p>
                     </div>
-                    <div>
+                    <div class="col-lg-8 mx-auto text-center">
                         <table class="table table-striped">
                             <h4>Last face : </h4>
                             <thead>
@@ -28,55 +26,58 @@
                             </thead>
                             <tbody>
                             {% for lastFace in lastFaces %}
-                                    <tr>
-                                        <th scope="row">{{ loop.index }}</th>
-                                        <td>{{ lastFace.title }}</td>
-                                        <td>{{ lastFace.nbVote }}</td>
-                                        <td><a href="{{  path('show_face', { 'faceId': lastFace.id }) }}" class="btn btn-primary">Show</a></td>
-                                    </tr>
+                                <tr>
+                                    <th scope="row">{{ loop.index }}</th>
+                                    <td>{{ lastFace.title }}</td>
+                                    <td>{{ lastFace.nbVote }}</td>
+                                    <td><a href="{{ path('show_face', { 'faceId': lastFace.id }) }}" class="btn btn-primary">Show</a></td>
+                                </tr>
                             {% endfor %}
                             </tbody>
                         </table>
                     </div>
-                </div>
-            {% else %}
-                <div class="col-md-6 offset-md-3">
-                    {{ render(controller('FOSUserBundle:Security:login')) }}
-                </div>
-            {% endif %}
+                {% else %}
+                    <div class="col-lg-8 mx-auto text-center">
+                        {{ render(controller('FOSUserBundle:Security:login')) }}
+                    </div>
+                {% endif %}
+            </div>
         </div>
-        <hr>
-        <h4>Vote here : </h4>
-        <div class="row">
-            {% for category in categories %}
-                <div class="col-md-6">
-                    {% if category.faces|length %}
-                        <div class="card">
-                            <div class="card-header">
-                                {{ category.titre }}
-                            </div>
-                            <div class="row">
-                                {% for randomFace in category.faces|shuffle %}
-                                    {% if loop.index < 3 %}
-                                        <div class="col-md-6">
-                                            <div style="height: 300px; overflow: hidden">
-                                                <a href="{{  path('show_face', { 'faceId': randomFace.id }) }}">
-                                                    <img class="card-img-top" src="{{ asset('uploads/' ~ randomFace.imageName) }}" alt="Card image cap">
-                                                </a>
-                                            </div>
-                                            <div class="card-body">
-                                                <a href="{{  path('show_face', { 'faceId': randomFace.id }) }}"><h5 class="card-title">{{ randomFace.title }}</h5></a>
-                                                <p class="card-text">{% if randomFace.nbVote == false %}No vote{% else %}Votes :{{ randomFace.nbVote }}{% endif %}</p>
-                                                <a href="{% if app.user %} {{ path('vote', { 'faceId': randomFace.id }) }}{% else %}{{ path('admin') }}{% endif %}" class="btn btn-primary">Vote</a>
-                                            </div>
-                                        </div>
+    </section>
+    <section id="random-vote">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 mx-auto">
+                    <hr>
+                    <h4>Random vote here : </h4>
+                    <div class="row align-items-center">
+                    {% for randomFace in faces|shuffle %}
+                        {% if loop.index < 3 %}
+                            {% if loop.index == 2 %}
+                                <div class="col-lg-4 order-lg-2">
+                                <img class="img-fluid" src="{{ asset('img/vs.png') }}" alt="" style="width: auto; height: 190px;">
+                                </div>
+                            {% endif %}
+                            <div class="col-lg-4 order-lg-2">
+                                <div class="p-5">
+                                    <a href="{{ path('show_face', { 'faceId': randomFace.id }) }}">
+                                        <img class="img-fluid" src="{{ asset('uploads/' ~ randomFace.imageName) }}" alt="" style="width: auto; height: 190px;">
+                                    </a>
+                                    <a href="{{ path('show_face', { 'faceId': randomFace.id }) }}">
+                                        <h5 class="card-title">{{ randomFace.title }}</h5>
+                                    </a>
+                                    <p class="card-text">{% if randomFace.nbVote == false %}No vote{% else %}Votes :{{ randomFace.nbVote }}{% endif %}</p>
+                                    {% if app.user %}
+                                        <a href=" {% if app.user %}{{ path('vote', { 'faceId': randomFace.id }) }}{% else %}{{ path('admin') }}{% endif %}" class="btn btn-primary">Vote</a>
+                                    {% else %}
+                                       <i>You need to be connected to vote</i>
                                     {% endif %}
-                                {% endfor %}
+                                </div>
                             </div>
-                        </div>
-                    {% endif %}
+                        {% endif %}
+                    {% endfor %}</div>
                 </div>
-            {% endfor %}
+            </div>
         </div>
-    </div>
+    </section>
 {% endblock %}

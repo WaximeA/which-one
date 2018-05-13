@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section id="show-category">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mx-auto">
+                    <h1>{{ category.titre }} category : </h1>
+                    <p>Find everything you want to know about this category.</p>
+                    <br>
+                    <table class="table table-striped">
+                        <h4>Best Face :</h4>
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Number of vote</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="table-warning">
+                            <th scope="row">#1</th>
+                            <td>{{ highestFace.title }}</td>
+                            <td>{{ highestFace.nbVote }}</td>
+                            <td><a href="{{ path('show_face', { 'faceId': highestFace.id }) }}" class="btn btn-primary">Show</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-10 mx-auto">
+                    {% if category.faces|length %}
+                        <div class="card">
+                            <div class="card-header">
+                                Vote for your favorite <b>{{ category.titre }} </b>:
+                            </div>
+                            <div class="row align-items-center">
+                                {% for randomFace in category.faces|shuffle %}
+                                    {% if loop.index < 3 %}
+                                        {% if loop.index == 2 %}
+                                            <div class="col-lg-4 order-lg-2">
+                                                <img class="img-fluid" src="{{ asset('img/vs.png') }}" alt="" style="width: auto; height: 190px;">
+                                            </div>
+                                        {% endif %}
+                                        <div class="col-lg-4 order-lg-2">
+                                            <div class="p-5">
+                                                <a href="{{ path('show_face', { 'faceId': randomFace.id }) }}">
+                                                    <img class="img-fluid" src="{{ asset('uploads/' ~ randomFace.imageName) }}" alt="" style="width: auto; height: 190px;">
+                                                </a>
+                                                <a href="{{ path('show_face', { 'faceId': randomFace.id }) }}">
+                                                    <h5 class="card-title">{{ randomFace.title }}</h5>
+                                                </a>
+                                                <p class="card-text">{% if randomFace.nbVote == false %}No vote{% else %}Votes :{{ randomFace.nbVote }}{% endif %}</p>
+                                                {% if app.user %}
+                                                    <a href=" {% if app.user %}{{ path('vote', { 'faceId': randomFace.id }) }}{% else %}{{ path('admin') }}{% endif %}" class="btn btn-primary">Vote</a>
+                                                {% else %}
+                                                    <i>You need to be connected to vote</i>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            All {{ category.titre }}
+                        </div>
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                {% for face in category.faces %}
+                                    <div class="col-md-4 mx-auto">
+                                        {% if face.category == category.titre %}
+                                            <a href="{{ path('show_face', { 'faceId': face.id }) }}">
+                                                <h5 class="card-title">{{ face.title }}</h5>
+                                            </a>
+                                            <a href="{{ path('show_face', { 'faceId': face.id }) }}">
+                                                <p class="card-text">
+                                                    <img class="img-fluid" src="{{ asset('uploads/' ~ face.imageName) }}" alt="" style="width: auto; height: 190px;">
+                                                </p>
+                                            </a>
+                                            <p class="card-text">{{ face.content }}</p>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <a href="{{ path('faces') }}" class="btn btn-primary">Return to face</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

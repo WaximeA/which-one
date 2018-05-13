@@ -12,16 +12,17 @@
             {#{% include 'page/navbar.html.twig' %}#}
             {{ render(controller('AppBundle\\Controller\\DefaultController::getMenuAction',{'route': app.request.attributes.get('_route')})) }}
         {% endblock %}
-        <div class="container">
-            {% for label, messages in app.flashes() %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ label }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+
+        {% for label, messages in app.flashes() %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message }}
+                </div>
             {% endfor %}
-            {% block body %}{% endblock %}
-        </div>
+        {% endfor %}
+
+        {% block body %}{% endblock %}
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>

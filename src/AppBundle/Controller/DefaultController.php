@@ -122,4 +122,15 @@ class DefaultController extends Controller
 
         return $beautifiedTopCategories;
     }
+
+    /**
+     * @Route("/category/{categoryId}", name="show_category")
+     */
+    public function showFaceAction($categoryId)
+    {
+        $category = $this->getDoctrine()->getRepository('AppBundle:FaceCategory')->find($categoryId);
+        $highestFaces = $this->getTopFaceCategories($categoryId);
+
+        return $this->render('category/show_category.html.twig', ['category' => $category, 'highestFace' => $highestFaces]) ;
+    }
 }
