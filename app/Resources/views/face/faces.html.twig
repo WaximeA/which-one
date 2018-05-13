@@ -8,7 +8,6 @@
                     <h3>All faces</h3>
                     <p>Consult all the faces and categories of the website : </p>
                     {% for category in categories %}
-                        {% if loop.index < 4 %}
                             <div class="col-md-12 mx-auto">
                                 <div class="card">
                                     <div class="card-header">
@@ -25,7 +24,7 @@
                                                                 <img class="img-fluid" src="{{ asset('uploads/' ~ face.imageName) }}" alt="" style="width: auto; height: 190px;">
                                                             </p>
                                                         </a>
-                                                        <p class="card-text">{{ face.content }}</p>
+                                                        <hr>
                                                     {% endif %}
                                                 </div>
                                             {% endfor %}
@@ -35,7 +34,6 @@
                                 </div>
                                 <br>
                             </div>
-                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
