@@ -51,7 +51,9 @@
                     {% if category.faces|length %}
                         <div class="card">
                             <div class="card-header">
-                                Best of {{ category.titre }}
+                                <a href="{{  path('show_category', { 'categoryId': category.id }) }}">
+                                    Best of {{ category.titre }}
+                                </a>
                             </div>
                             <div class="row">
                                 {% for topCatgoryId,topFaceCategory in topFaceCategories %}
